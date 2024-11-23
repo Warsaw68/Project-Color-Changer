@@ -15,19 +15,16 @@ document.getElementById('upload-form').addEventListener('submit', function (even
             canvas.width = img.width;
             canvas.height = img.height;
 
-            // Draw image on canvas
             ctx.drawImage(img, 0, 0);
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             const data = imageData.data;
 
-            // Apply selected effect
             if (effect === 'grayscale') applyGrayscale(data);
             if (effect === 'blur') applyBlur(canvas, data);
 
-            // Update canvas with the modified image
             ctx.putImageData(imageData, 0, 0);
 
-            // Store images and redirect
+
             sessionStorage.setItem('originalImage', img.src);
             sessionStorage.setItem('transformedImage', canvas.toDataURL());
             window.location.href = 'result.html';
@@ -37,7 +34,7 @@ document.getElementById('upload-form').addEventListener('submit', function (even
     reader.readAsDataURL(fileInput.files[0]);
 });
 
-// Grayscale effect
+
 function applyGrayscale(data) {
     for (let i = 0; i < data.length; i += 4) {
         const gray = 0.3 * data[i] + 0.59 * data[i + 1] + 0.11 * data[i + 2];
@@ -45,11 +42,11 @@ function applyGrayscale(data) {
     }
 }
 
-// Blur effect
+
 function applyBlur(canvas, data) {
     const ctx = canvas.getContext('2d');
-    ctx.filter = 'blur(3px)'; // Use CSS blur filter for simplicity
+    ctx.filter = 'blur(3px)'; 
     ctx.drawImage(canvas, 0, 0);
     const blurredImageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    data.set(blurredImageData.data); // Update original image data
+    data.set(blurredImageData.data); 
 }
